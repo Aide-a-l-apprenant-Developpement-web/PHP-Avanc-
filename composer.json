@@ -1,0 +1,16 @@
+{
+    "name": "gbrle/php-avance",
+    "description": "Composer 2",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/Wcs/"
+        }
+    },
+    "authors": [
+        {
+            "name": "gbrle",
+            "email": "david.gabriele@outlook.fr"
+        }
+    ],
+    "require": {}
+}
