@@ -1,5 +1,11 @@
 <?php
 require_once 'Friend.php';
+
+if($_REQUEST){
+    $friend = new Friend();
+
+    $errorsAddFriend = $friend->addFriend($_REQUEST);
+}
 ?>
 
 <!doctype html>
@@ -21,18 +27,29 @@ require_once 'Friend.php';
     <ul class="list-group">
         <?php
         $friend = new Friend();
-        foreach ($friend->getFriends() as $friend) {
-            echo "<li class='list-group-item d-flex justify-content-center'>" . $friend['firstname'] . " " . $friend['lastname'] . "</li>";
+        foreach ($friend->getFriends() as $f) {
+            echo "<li class='list-group-item d-flex justify-content-center'>" . $f['firstname'] . " " . $f['lastname'] . "</li>";
         }
         ?>
     </ul>
-    <form onsubmit="return addFriend(this)" class="border p-3 mt-5">
+    <form method="post" action="" class="border p-3 mt-5">
         <h2 class="text-center">Créer un amis</h2>
         <input name="prenom" class="form-control mt-3 mb-3" type="text" placeholder="Prénom"
                aria-label="default input example">
         <input name="nom" class="form-control mt-3 mb-3" type="text" placeholder="Nom"
                aria-label="default input example">
 
+        <p id="error" class="text-danger" hidden>Le formulaire a mal été rempli !</p>
+        <p id="sended" class="text-success" hidden>L'amis a été ajouté !</p>
+        <?php
+            if($errorsAddFriend){
+                foreach ($errorsAddFriend as $error){
+                    echo "<p class='text-danger'>".$error."</p>";
+                }
+            } else {
+                echo "<p class='text-success'>L'amis a bien été ajouté !</p>";
+            }
+        ?>
         <button type="submit" class="btn btn-primary">Ajouter</button>
         </fieldset>
     </form>
@@ -41,13 +58,6 @@ require_once 'Friend.php';
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
-<script type="application/javascript" >
-    function addFriend(form) {
-        console.log(form.prenom.value)
-        console.log(form.nom.value)
-        return false;
-    }
-</script>
 
 </body>
 </html>

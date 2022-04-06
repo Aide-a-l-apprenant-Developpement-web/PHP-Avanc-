@@ -18,11 +18,20 @@ class Friend {
         return $statement->fetchAll();
     }
 
-    public function addFriend(){
+    public function addFriend(array $request){
+        $errors = [];
 
-        $query = "INSERT INTO friend (firstname, lastname) VALUES ($firstName, $lastName)";
-        $statement = $this->pdo->exec($query);
+        $friend = array_map('trim', $request);
 
+        $friend['prenom'] !== '' ?: array_push($errors, "Il faut renseigner un prénom !");
+        $friend['nom'] !== '' ?: array_push($errors, "Il faut renseigner un nom !");
+
+        if(count($errors) === 0){
+            $query = "INSERT INTO friend (firstname, lastname) VALUES ('".strip_tags($friend['prenom'])."','".strip_tags($friend['nom'])."')";
+            $this->pdo->exec($query);
+        } else {
+            return $errors;
+        }
     }
 
 }
